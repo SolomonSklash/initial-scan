@@ -2,6 +2,8 @@
 
 A tool I wrote for performing an initial, information-gathering scan on a target URL before beginning a web application penetration test.
 
+Usage: initial-scan.sh URL TARGET_NAME
+
 ## Tools
 Initial Scan uses the following tools:
 * [nmap](https://nmap.org/) 
