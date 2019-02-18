@@ -101,15 +101,15 @@ function run_gobuster() {
 function run_ffuf() {
 		echo -e "$GREEN""Running ffuf with the following command: ffuf -u $URL/FUZZ -w big.txt -k | tee $WORKING_DIR/ffuf-output.txt""$NC";
 		sleep 1;
-		ffuf -u "$URL"/FUZZ -w big.txt -k | tee "$WORKING_DIR"/ffuf-output.txt;
+		"$FFUF" -u "$URL"/FUZZ -w big.txt -k | tee "$WORKING_DIR"/ffuf-output.txt;
 }
 
 function run_bfac() {
-		echo -e "$GREEN""Running nikto with the following command: nikto -h $URL -output $WORKING_DIR/$TIME-nikto.txt""$NC";
+		echo -e "$GREEN""Running bfac with the following command: $BFAC -u $URL -xsc 404,400 -o $WORKING_DIR/bfac""$NC";
 		sleep 1;
-		nikto -h "$URL" -output "$WORKING_DIR"/"$TIME"-nikto.txt;
+		"$BFAC" -u "$URL" -xsc 404,400 -o "$WORKING_DIR"/bfac;
 }
-
+run_bfac;
 function run_snallygaster() {
 		echo -e "$GREEN""Running nikto with the following command: nikto -h $URL -output $WORKING_DIR/$TIME-nikto.txt""$NC";
 		sleep 1;
