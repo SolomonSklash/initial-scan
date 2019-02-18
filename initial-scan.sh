@@ -109,13 +109,13 @@ function run_bfac() {
 		sleep 1;
 		"$BFAC" -u "$URL" -xsc 404,400 -o "$WORKING_DIR"/bfac;
 }
-run_bfac;
-function run_snallygaster() {
-		echo -e "$GREEN""Running nikto with the following command: nikto -h $URL -output $WORKING_DIR/$TIME-nikto.txt""$NC";
-		sleep 1;
-		nikto -h "$URL" -output "$WORKING_DIR"/"$TIME"-nikto.txt;
-}
 
+function run_snallygaster() {
+		echo -e "$GREEN""Running snallygaster with the following command: $SNALLYGASTER $URL -d | tee $WORKING_DIR/snallgaster""$NC";
+		sleep 1;
+		"$SNALLYGASTER" "$URL" -d | tee "$WORKING_DIR"/snallgaster;
+}
+run_snallygaster;
 function run_wafw00f() {
 		echo -e "$GREEN""Running nikto with the following command: nikto -h $URL -output $WORKING_DIR/$TIME-nikto.txt""$NC";
 		sleep 1;
