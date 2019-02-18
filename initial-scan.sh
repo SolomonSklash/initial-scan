@@ -122,3 +122,11 @@ function run_wafw00f() {
 		wafw00f "$URL" -a | tee "$WORKING_DIR"/wafw00f;
 }
 
+run_nmap;
+run_whatweb;
+run_nikto;
+run_gobuster;
+run_ffuf;
+run_bfac;
+run_snallygaster;
+run_wafw00f;
