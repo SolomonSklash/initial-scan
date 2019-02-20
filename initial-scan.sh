@@ -71,13 +71,15 @@ WORKING_DIR="$RBU"-"$TIME";
 sleep 1;
 
 function run_nmap() {
-		echo -e "$GREEN""[*] Running the following nmap command: sudo nmap $URL -v -Pn -sV --reason --version-all --top-ports 1000 -oA $WORKING_DIR/nmap-top-1000""$NC";
+		# Strip http/https from URL
+		NMAP_URL=$(echo "$URL" | sed -e 's/^http\(\|s\):\/\///g');
+		echo -e "$GREEN""[*] Running the following nmap command: sudo nmap $NMAP_URL -v -Pn -sV --reason --version-all --top-ports 1000 -oA $WORKING_DIR/nmap-top-1000 --stats-every 7s""$NC";
 		sleep 1;
-		sudo nmap "$URL" -v -Pn -sV --reason --version-all --top-ports 1000 "$WORKING_DIR"/nmap-top-1000;
+		sudo nmap "$NMAP_URL" -v -Pn -sV --reason --version-all --top-ports 1000 -oA "$WORKING_DIR"/nmap-top-1000 --stats-every 7s;
 
-		echo -e "$GREEN""[*] Running the following nmap command:  sudo nmap $URL -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA $WORKING_DIR/nmap-top-http""$NC";
+		echo -e "$GREEN""[*] Running the following nmap command:  sudo nmap $URL -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA $WORKING_DIR/nmap-http""$NC";
 		sleep 1;
-		sudo nmap "$URL" -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA "$WORKING_DIR"/nmap-top-1000;
+		sudo nmap "$URL" -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA "$WORKING_DIR"/nmap-http;
 }
 
 function run_whatweb() {
@@ -89,13 +91,13 @@ function run_whatweb() {
 function run_nikto() {
 		echo -e "$GREEN""Running nikto with the following command: nikto -h $URL -output $WORKING_DIR/$TIME-nikto.txt""$NC";
 		sleep 1;
-		nikto -h "$URL" -output "$WORKING_DIR"/"$TIME"-nikto.txt;
+		nikto -h "$URL" -output "$WORKING_DIR"/nikto.txt;
 }
 
 function run_gobuster() {
 		echo -e "$GREEN""Running gobuster with the command: gobuster -u $URL -w big.txt -s '200,204,301,302,307,403,500' -e -o $WORKING_DIR/gobuster""$NC";
 		sleep 1;
-		gobuster -u "$URL" -w big.txt -s '200,204,301,302,307,403,500' -e -o "$WORKING_DIR"/gobuster;
+		gobuster -u "$URL" -t 20 -w big.txt -s '200,204,301,302,307,403,500' -e -o "$WORKING_DIR"/gobuster;
 }
 
 function run_ffuf() {
@@ -119,7 +121,7 @@ function run_snallygaster() {
 function run_wafw00f() {
 		echo -e "$GREEN""Running wafw00f with the following command: wafw00f $URL -a | tee $WORKING_DIR/wafw00f""$NC";
 		sleep 1;
-		wafw00f "$URL" -a | tee "$WORKING_DIR"/wafw00f;
+		wafw00f "$URL" -v -a 3 | tee "$WORKING_DIR"/wafw00f;
 }
 
 run_nmap;
