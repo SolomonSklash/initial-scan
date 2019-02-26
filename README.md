@@ -2,7 +2,9 @@
 
 A tool for performing an initial, information-gathering scan on a target URL before beginning a web application penetration test.
 
-Usage: initial-scan.sh [url] [target_name]
+Usage: initial-scan.sh [URL] [TARGET]
+
+A full URL including the scheme and/or port is required, as well as a target name. An output directory will be created with the target name along with a timestamp for each run of the script.
 
 Example: `./initial-scan.sh https://www.example.com example`
 
