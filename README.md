@@ -3,6 +3,7 @@
 A tool I wrote for performing an initial, information-gathering scan on a target URL before beginning a web application penetration test.
 
 Usage: initial-scan.sh [url] [target_name]
+All tools can be installed into the ~/tools directory (created as needed) by running initial-scan.sh install.
 
 ## Tools
 Initial Scan uses the following tools:
