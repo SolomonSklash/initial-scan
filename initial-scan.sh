@@ -19,6 +19,32 @@ BREACHER=~/tools/Breacher/breacher.py;
 
 TIME=$(date +%T);
 
+function installer() {
+		echo -e "$GREEN""[+] Installing nmap, whatweb, nikto, gobuster, and wafw00f from repositories.""$NC";
+		sudo apt install nmap whatweb nikto gobuster wafw00f;
+
+		echo -e "$GREEN""[+] Creating ~/tools directory for cloned tools.""$NC";
+		mkdir -pv ~/tools;
+
+		# Clone repos
+		echo -e "$GREEN""[+] Cloning ffuf from Github.""$NC";
+		git clone https://github.com/ffuf/ffuf.git ~/tools/ffuf;
+		echo -e "$GREEN""[+] Cloning bfac from Github.""$NC";
+		git clone https://github.com/mazen160/bfac.git ~/tools/bfac;
+		echo -e "$GREEN""[+] Cloning snallygaster from Github.""$NC";
+		git clone https://github.com/hannob/snallygaster ~/tools/snallygaster;
+		echo -e "$GREEN""[+] Cloning Breacher from Github.""$NC";
+		git clone https://github.com/s0md3v/Breacher.git ~/tools/Breacher;
+
+		echo -e "$GREEN""Tools have been installed. Please run with arguments [URL] [RBU].""$NC";
+		exit;
+}
+
+if [[ "$URL" == "install" ]]; then
+		# Call installer function
+		installer;
+fi
+
 # Check for arguments
 if [[ "$URL" == "" ]]; then
 		echo -e "$RED""No URL provided!\\n""$NC";
