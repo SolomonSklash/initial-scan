@@ -14,3 +14,4 @@ Initial Scan uses the following tools:
 * [bfac](https://github.com/mazen160/bfac) (clone git repo and add path to script)
 * [snallygaster](https://github.com/hannob/snallygaster) (clone git repo and add path to script)
 * [wafw00f](https://github.com/EnableSecurity/wafw00f) (Installed via Kali package)
+* [Breacher](https://github.com/s0md3v/Breacher) (clone git repo and add path to script)
