@@ -15,6 +15,7 @@ RBU=$2;
 BFAC=~/tools/bfac/bfac;
 SNALLYGASTER=~/tools/snallygaster/snallygaster;
 FFUF=~/tools/ffuf/ffuf;
+BREACHER=~/tools/Breacher/breacher.py;
 
 TIME=$(date +%T);
 
@@ -41,24 +42,32 @@ function check_paths() {
 				echo -e "$RED""The path to bfac has not been set.""$NC";
 				exit;
 		fi
-		if [[ "$SNALLYGASTER" == "" ]]; then
-				echo -e "$RED""The path to snallygaster has not been set.""$NC";
-				exit;
-		fi
-		if [[ "$FFUF" == "" ]]; then
-				echo -e "$RED""The path to ffuf has not been set.""$NC";
-				exit;
-		fi
 		if [[ ! -a "$BFAC" ]]; then
 				echo -e "$RED""File at bfac path does not exist.""$NC";
+				exit;
+		fi
+		if [[ "$SNALLYGASTER" == "" ]]; then
+				echo -e "$RED""The path to snallygaster has not been set.""$NC";
 				exit;
 		fi
 		if [[ ! -a "$SNALLYGASTER" ]]; then
 				echo -e "$RED""File at snallygaster path does not exist.""$NC";
 				exit;
 		fi
+		if [[ "$FFUF" == "" ]]; then
+				echo -e "$RED""The path to ffuf has not been set.""$NC";
+				exit;
+		fi
 		if [[ ! -a "$FFUF" ]]; then
 				echo -e "$RED""File at ffuf path does not exist.""$NC";
+				exit;
+		fi
+		if [[ "$BREACHER" == "" ]]; then
+				echo -e "$RED""The path to breacher has not been set.""$NC";
+				exit;
+		fi
+		if [[ ! -a "$BREACHER" ]]; then
+				echo -e "$RED""File at breacher path does not exist.""$NC";
 				exit;
 		fi
 }
@@ -124,11 +133,17 @@ function run_wafw00f() {
 		wafw00f "$URL" -v -a 3 | tee "$WORKING_DIR"/wafw00f;
 }
 
+function run_breacher() {
+		echo -e "$GREEN""Running breacher with the following command: pythong breacher.py -u $URL --fast""$NC";
+		python "$BREACHER" -u "$URL" --fast;
+}
+
 run_nmap;
 run_whatweb;
 run_nikto;
-run_gobuster;
 run_ffuf;
+run_gobuster;
+run_breacher;
 run_bfac;
 run_snallygaster;
 run_wafw00f;
