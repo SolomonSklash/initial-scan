@@ -20,8 +20,8 @@ BREACHER=~/tools/Breacher/breacher.py;
 TIME=$(date +%T);
 
 function installer() {
-		echo -e "$GREEN""[+] Installing nmap, whatweb, nikto, gobuster, and wafw00f from repositories.""$NC";
-		sudo apt install nmap whatweb nikto gobuster wafw00f;
+		echo -e "$GREEN""[+] Installing nmap, whatweb, nikto, gobuster, wafw00f, and sslscan from repositories.""$NC";
+		sudo apt install nmap whatweb nikto gobuster wafw00f sslscan;
 
 		echo -e "$GREEN""[+] Creating ~/tools directory for cloned tools.""$NC";
 		mkdir -pv ~/tools;
@@ -188,7 +188,14 @@ function run_breacher() {
 		python "$BREACHER" -u "$URL" --fast;
 }
 
-# run_nmap;
+function run_sslscan() {
+		trap cancel SIGINT;
+
+		echo -e "$GREEN""[*]$BLUE Running sslscan with the following command: sslscan $URL""$NC";
+		sslscan "$URL";
+}
+
+run_nmap;
 run_whatweb;
 run_nikto;
 run_ffuf;
@@ -197,3 +204,4 @@ run_breacher;
 run_bfac;
 run_snallygaster;
 run_wafw00f;
+run_sslscan;

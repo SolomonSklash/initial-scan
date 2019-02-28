@@ -17,6 +17,7 @@ Initial Scan uses the following tools:
 * [whatweb](https://www.morningstarsecurity.com/research/whatweb) (Installed via Kali package)
 * [nikto](https://cirt.net/nikto2) (Installed via Kali package)
 * [gobuster](https://github.com/OJ/gobuster) (Installed via Kali package)
+* [sslscan](https://github.com/rbsec/sslscan/) (Installed via Kali package)
 * [ffuf](https://github.com/ffuf/ffuf) (Binary downloaded from git repo)
 * [bfac](https://github.com/mazen160/bfac) (clone git repo and add path to script)
 * [snallygaster](https://github.com/hannob/snallygaster) (clone git repo and add path to script)
