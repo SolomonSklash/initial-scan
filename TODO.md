@@ -9,4 +9,5 @@
 - [x] Add --stats-every to nmap
 - [ ] Go over webserver nmap options: https://fzuckerman.wordpress.com/2016/10/02/nmap-auditing-web-servers/
 - [ ] Add Photon
-- [x] Aadd sslscan
+- [x] Add sslscan
+- [x] add [twa](https://github.com/trailofbits/twa

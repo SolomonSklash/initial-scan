@@ -16,6 +16,7 @@ BFAC=~/tools/bfac/bfac;
 SNALLYGASTER=~/tools/snallygaster/snallygaster;
 FFUF=~/tools/ffuf/ffuf;
 BREACHER=~/tools/Breacher/breacher.py;
+TWA=~/tools/twa.sh
 
 TIME=$(date +%T);
 
@@ -37,6 +38,9 @@ function installer() {
 		git clone https://github.com/hannob/snallygaster ~/tools/snallygaster;
 		echo -e "$GREEN""[+] Cloning Breacher from Github.""$NC";
 		git clone https://github.com/s0md3v/Breacher.git ~/tools/Breacher;
+		echo -e "$GREEN""[+] Downloading twa from Github.""$NC";
+		wget https://raw.githubusercontent.com/trailofbits/twa/master/twa -O ~/tools/twa.sh;
+		chmod +x ~/tools/twa.sh
 
 		echo -e "$BLUE""[i] Tools have been installed. Please run with arguments [URL] [TARGET].""$NC";
 		exit;
@@ -98,6 +102,14 @@ function check_paths() {
 				echo -e "$RED""[!] File at breacher path does not exist.""$NC";
 				exit;
 		fi
+		if [[ "$TWA" == "" ]]; then
+				echo -e "$RED""[!] The path to twa has not been set.""$NC";
+				exit;
+		fi
+		if [[ ! -a "$TWA" ]]; then
+				echo -e "$RED""[!] File at twa path does not exist.""$NC";
+				exit;
+		fi
 }
 check_paths;
 
@@ -122,7 +134,7 @@ function run_nmap() {
 
 		echo -e "$GREEN""[*]$BLUE Running the following nmap command:  sudo nmap $URL -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA $WORKING_DIR/nmap-http""$NC";
 		sleep 1;
-		sudo nmap "$NMAP_URL" -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA "$WORKING_DIR"/nmap-http;
+		sudo nmap "$NMAP_URL" -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA "$WORKING_DIR"/nmap-http --stats-every 7s;
 }
 
 function run_whatweb() {
@@ -185,7 +197,9 @@ function run_breacher() {
 		trap cancel SIGINT;
 
 		echo -e "$GREEN""[*]$BLUE Running breacher with the following command: python breacher.py -u $URL --fast""$NC";
+		cd ~/tools/Breacher;
 		python "$BREACHER" -u "$URL" --fast;
+		cd -;
 }
 
 function run_sslscan() {
@@ -195,6 +209,11 @@ function run_sslscan() {
 		sslscan "$URL";
 }
 
+function run_twa() {
+		echo -e "$GREEN""[*]$BLUE Running twa.sh with the following command: twa.sh $URL""$NC";
+		"$TWA" "$URL";
+}
+
 run_nmap;
 run_whatweb;
 run_nikto;
@@ -202,6 +221,7 @@ run_ffuf;
 run_gobuster;
 run_breacher;
 run_bfac;
-run_snallygaster;
+# run_snallygaster;
 run_wafw00f;
 run_sslscan;
+run_twa;
