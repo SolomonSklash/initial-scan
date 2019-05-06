@@ -30,7 +30,7 @@ function installer() {
 		# Clone repos
 		echo -e "$GREEN""[+] Fetching ffuf from Github.""$NC";
 		mkdir -pv ~/tools/ffuf;
-		wget https://github.com/ffuf/ffuf/releases/download/v0.7/ffuf_0.7_linux_amd64.tar.gz -O ~/tools/ffuf/ffuf.tar.gz;
+		wget https://github.com/ffuf/ffuf/releases/download/v0.9/ffuf_0.9_linux_amd64.tar.gz -O ~/tools/ffuf/ffuf.tar.gz;
 		tar xavf ~/tools/ffuf/ffuf.tar.gz -C ~/tools/ffuf;
 		echo -e "$GREEN""[+] Cloning bfac from Github.""$NC";
 		git clone https://github.com/mazen160/bfac.git ~/tools/bfac;
