@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.70 scan initiated Mon May  6 15:44:10 2019 as: nmap -v -Pn -p 80,8080,443 -&#45;script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA ssklash-15:44:06/nmap-http -&#45;stats-every 7s www.solomonsklash.io -->
+<nmaprun scanner="nmap" args="nmap -v -Pn -p 80,8080,443 -&#45;script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA ssklash-15:44:06/nmap-http -&#45;stats-every 7s www.solomonsklash.io" start="1557175450" startstr="Mon May  6 15:44:10 2019" version="7.70" xmloutputversion="1.04">
+<scaninfo type="connect" protocol="tcp" numservices="3" services="80,443,8080"/>
+<verbose level="1"/>
+<debugging level="0"/>
+<taskbegin task="NSE" time="1557175450"/>
+<taskend task="NSE" time="1557175450"/>
+<taskbegin task="Parallel DNS resolution of 1 host." time="1557175450"/>

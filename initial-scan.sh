@@ -162,7 +162,7 @@ function run_whatweb() {
 function run_nikto() {
 		trap cancel SIGINT;
 
-		echo -e "$ORANGE""[*]$GREEN Running nikto with the following command:$BLUE nikto -h $URL -output $WORKING_DIR/$TIME-nikto.txt""$NC";
+		echo -e "$ORANGE""[*]$GREEN Running nikto with the following command:$BLUE nikto -h $URL -timeout 3 -maxtime 7m -output $WORKING_DIR/$TIME-nikto.txt""$NC";
 		sleep 1;
 		nikto -h "$URL" -timeout 3 -maxtime 7m -output "$WORKING_DIR"/nikto.txt;
 }
