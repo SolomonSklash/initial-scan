@@ -12,11 +12,10 @@ URL=$1;
 TARGET=$2;
 
 # Tools paths
-BFAC=~/tools/bfac/bfac;
-# SNALLYGASTER=~/tools/snallygaster/snallygaster;
-FFUF=~/tools/ffuf/ffuf;
-BREACHER=~/tools/Breacher/breacher.py;
-TWA=~/tools/twa.sh
+BFAC=$HOME/tools/bfac/bfac;
+FFUF=$HOME/tools/ffuf/ffuf;
+BREACHER=$HOME/tools/Breacher/breacher.py;
+TWA=$HOME/tools/twa.sh
 
 TIME=$(date +%T);
 
@@ -24,23 +23,44 @@ function installer() {
 		echo -e "$GREEN""[+] Installing nmap, whatweb, nikto, gobuster, wafw00f, and sslscan from repositories.""$NC";
 		sudo apt install nmap whatweb nikto gobuster wafw00f sslscan;
 
-		echo -e "$GREEN""[+] Creating ~/tools directory for cloned tools.""$NC";
-		mkdir -pv ~/tools;
-
-		# Clone repos
+		echo -e "$GREEN""[+] Creating $HOME/tools directory for cloned tools.""$NC";
+		if [[ ! -e "$HOME"/tools ]]; then
+				mkdir -pv "$HOME"/tools;
+		fi
 		echo -e "$GREEN""[+] Fetching ffuf from Github.""$NC";
-		mkdir -pv ~/tools/ffuf;
-		wget https://github.com/ffuf/ffuf/releases/download/v0.9/ffuf_0.9_linux_amd64.tar.gz -O ~/tools/ffuf/ffuf.tar.gz;
-		tar xavf ~/tools/ffuf/ffuf.tar.gz -C ~/tools/ffuf;
+		if [[ ! -e "$HOME"/tools/ffuf ]]; then
+				mkdir -pv "$HOME"/tools/ffuf;
+				wget https://github.com/ffuf/ffuf/releases/download/v0.9/ffuf_0.9_linux_amd64.tar.gz -O "$HOME"/tools/ffuf/ffuf.tar.gz;
+				tar xavf "$HOME"/tools/ffuf/ffuf.tar.gz -C "$HOME"/tools/ffuf;
+		else
+				rm -rf "$HOME"/tools/ffuf;
+				mkdir -pv "$HOME"/tools/ffuf;
+				wget https://github.com/ffuf/ffuf/releases/download/v0.9/ffuf_0.9_linux_amd64.tar.gz -O "$HOME"/tools/ffuf/ffuf.tar.gz;
+				tar xavf "$HOME"/tools/ffuf/ffuf.tar.gz -C "$HOME"/tools/ffuf;
+		fi
 		echo -e "$GREEN""[+] Cloning bfac from Github.""$NC";
-		git clone https://github.com/mazen160/bfac.git ~/tools/bfac;
-		# echo -e "$GREEN""[+] Cloning snallygaster from Github.""$NC";
-		# git clone https://github.com/hannob/snallygaster ~/tools/snallygaster;
+		if [[ ! -e "$HOME"/tools/bfac ]]; then
+				git clone https://github.com/mazen160/bfac.git "$HOME"/tools/bfac;
+		else
+				rm -rf "$HOME"/tools/bfac;
+				git clone https://github.com/mazen160/bfac.git "$HOME"/tools/bfac;
+		fi
 		echo -e "$GREEN""[+] Cloning Breacher from Github.""$NC";
-		git clone https://github.com/s0md3v/Breacher.git ~/tools/Breacher;
+		if [[ ! -e "$HOME"/tools/Breacher ]]; then
+				git clone https://github.com/s0md3v/Breacher.git "$HOME"/tools/Breacher;
+		else
+				rm -rf "$HOME"/tools/Breacher;
+				git clone https://github.com/s0md3v/Breacher.git "$HOME"/tools/Breacher;
+		fi
 		echo -e "$GREEN""[+] Downloading twa from Github.""$NC";
-		wget https://raw.githubusercontent.com/trailofbits/twa/master/twa -O ~/tools/twa.sh;
-		chmod +x ~/tools/twa.sh
+		if [[ ! -e "$HOME"/tools/twa.sh ]]; then
+				wget https://raw.githubusercontent.com/trailofbits/twa/master/twa -O "$HOME"/tools/twa.sh;
+				chmod +x "$HOME"/tools/twa.sh;
+		else
+				rm -rf "$HOME"/tools/twa.sh;
+				wget https://raw.githubusercontent.com/trailofbits/twa/master/twa -O "$HOME"/tools/twa.sh;
+				chmod +x "$HOME"/tools/twa.sh;
+		fi
 
 		echo -e "$BLUE""[i] Tools have been installed. Please run with arguments [URL] [TARGET].""$NC";
 		exit;
@@ -78,14 +98,6 @@ function check_paths() {
 				echo -e "$RED""[!] File at bfac path does not exist.""$NC";
 				exit;
 		fi
-		if [[ "$SNALLYGASTER" == "" ]]; then
-				echo -e "$RED""[!] The path to snallygaster has not been set.""$NC";
-				exit;
-		fi
-		# if [[ ! -a "$SNALLYGASTER" ]]; then
-		# 		echo -e "$RED""[!] File at snallygaster path does not exist.""$NC";
-		# 		exit;
-		# fi
 		if [[ "$FFUF" == "" ]]; then
 				echo -e "$RED""[!] The path to ffuf has not been set.""$NC";
 				exit;
@@ -111,6 +123,7 @@ function check_paths() {
 				exit;
 		fi
 }
+
 check_paths;
 
 # Create working directory based on TARGET name
@@ -126,8 +139,8 @@ function cancel() {
 function run_nmap() {
 		trap cancel SIGINT;
 
-		# Strip http/https from URL
-		NMAP_URL=$(echo "$URL" | sed -e 's/^http\(\|s\):\/\///g');
+		# Strip http/https and trailing path from URL
+		NMAP_URL=$(echo "$URL" | sed -e 's/^http\(\|s\):\/\///g' | sed -e 's/\/.*//');
 		echo -e "$GREEN""[*]$BLUE Running the following nmap command: sudo nmap $NMAP_URL -v -Pn -sV --reason --version-all --top-ports 1000 -oA $WORKING_DIR/nmap-top-1000 --stats-every 7s""$NC";
 		sleep 1;
 		sudo nmap "$NMAP_URL" -v -Pn -sV --reason --version-all --top-ports 1000 -oA "$WORKING_DIR"/nmap-top-1000 --stats-every 7s;
@@ -188,16 +201,19 @@ function run_snallygaster() {
 function run_wafw00f() {
 		trap cancel SIGINT;
 
-		echo -e "$GREEN""[*]$BLUE Running wafw00f with the following command: wafw00f $URL -a | tee $WORKING_DIR/wafw00f""$NC";
+		# Get base URL with scheme
+		WAFW00F_URL="$(echo "$URL" | cut -d '/' -f 1)//$(echo "$URL" | cut -d '/' -f 3)";
+
+		echo -e "$GREEN""[*]$BLUE Running wafw00f with the following command: wafw00f $WAFW00F_URL -a | tee $WORKING_DIR/wafw00f""$NC";
 		sleep 1;
-		wafw00f "$URL" -v -a 3 | tee "$WORKING_DIR"/wafw00f;
+		wafw00f "$WAFW00F_URL" -v -a 3 | tee "$WORKING_DIR"/wafw00f;
 }
 
 function run_breacher() {
 		trap cancel SIGINT;
 
 		echo -e "$GREEN""[*]$BLUE Running breacher with the following command: python breacher.py -u $URL --fast""$NC";
-		cd ~/tools/Breacher;
+		cd "$HOME"/tools/Breacher;
 		python "$BREACHER" -u "$URL" --fast;
 		cd -;
 }
