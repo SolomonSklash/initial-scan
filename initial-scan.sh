@@ -13,7 +13,7 @@ TARGET=$2;
 
 # Tools paths
 BFAC=~/tools/bfac/bfac;
-SNALLYGASTER=~/tools/snallygaster/snallygaster;
+# SNALLYGASTER=~/tools/snallygaster/snallygaster;
 FFUF=~/tools/ffuf/ffuf;
 BREACHER=~/tools/Breacher/breacher.py;
 TWA=~/tools/twa.sh
@@ -34,8 +34,8 @@ function installer() {
 		tar xavf ~/tools/ffuf/ffuf.tar.gz -C ~/tools/ffuf;
 		echo -e "$GREEN""[+] Cloning bfac from Github.""$NC";
 		git clone https://github.com/mazen160/bfac.git ~/tools/bfac;
-		echo -e "$GREEN""[+] Cloning snallygaster from Github.""$NC";
-		git clone https://github.com/hannob/snallygaster ~/tools/snallygaster;
+		# echo -e "$GREEN""[+] Cloning snallygaster from Github.""$NC";
+		# git clone https://github.com/hannob/snallygaster ~/tools/snallygaster;
 		echo -e "$GREEN""[+] Cloning Breacher from Github.""$NC";
 		git clone https://github.com/s0md3v/Breacher.git ~/tools/Breacher;
 		echo -e "$GREEN""[+] Downloading twa from Github.""$NC";
@@ -68,7 +68,7 @@ if [[ "$TARGET" == "" ]]; then
 		exit;
 fi
 
-# Check fortools
+# Check for tools
 function check_paths() {
 		if [[ "$BFAC" == "" ]]; then
 				echo -e "$RED""[!] The path to bfac has not been set.""$NC";
