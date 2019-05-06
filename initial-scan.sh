@@ -82,10 +82,10 @@ function check_paths() {
 				echo -e "$RED""[!] The path to snallygaster has not been set.""$NC";
 				exit;
 		fi
-		if [[ ! -a "$SNALLYGASTER" ]]; then
-				echo -e "$RED""[!] File at snallygaster path does not exist.""$NC";
-				exit;
-		fi
+		# if [[ ! -a "$SNALLYGASTER" ]]; then
+		# 		echo -e "$RED""[!] File at snallygaster path does not exist.""$NC";
+		# 		exit;
+		# fi
 		if [[ "$FFUF" == "" ]]; then
 				echo -e "$RED""[!] The path to ffuf has not been set.""$NC";
 				exit;
