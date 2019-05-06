@@ -1,4 +1,0 @@
-- Nikto v2.1.6/2.1.5
-+ Target Host: www.solomonsklash.io
-+ Target Port: 443
-+ GET The site uses SSL and Expect-CT header is not present.

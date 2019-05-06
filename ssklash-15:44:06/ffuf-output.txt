@@ -1,23 +1,0 @@
-
-        /'___\  /'___\           /'___\       
-       /\ \__/ /\ \__/  __  __  /\ \__/       
-       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
-        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
-         \ \_\   \ \_\  \ \____/  \ \_\       
-          \/_/    \/_/   \/___/    \/_/       
-
-       v0.9
-________________________________________________
-
- :: Method       : GET
- :: URL          : https://www.solomonsklash.io/FUZZ
- :: Matcher      : Response status: all
- :: Filter       : Response status: 404
-________________________________________________
-
-[2Kauthor                  [Status: 301, Size: 178, Words: 6]
-[2Kcategory                [Status: 301, Size: 178, Words: 6]
-[2Kfavicon.ico             [Status: 200, Size: 1150, Words: 4]
-[2Kfeeds                   [Status: 301, Size: 178, Words: 6]
-[2Kimages                  [Status: 301, Size: 178, Words: 6]
-[2Kpages                   [Status: 301, Size: 178, Words: 6]
