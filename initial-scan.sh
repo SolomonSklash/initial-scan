@@ -16,6 +16,7 @@ BFAC=$HOME/tools/bfac/bfac;
 FFUF=$HOME/tools/ffuf/ffuf;
 BREACHER=$HOME/tools/Breacher/breacher.py;
 TWA=$HOME/tools/twa.sh
+YAWAST=$(command -v yawast);
 
 TIME=$(date +%T);
 
@@ -61,6 +62,14 @@ function installer() {
 				rm -rf "$HOME"/tools/twa.sh;
 				wget https://raw.githubusercontent.com/trailofbits/twa/master/twa -O "$HOME"/tools/twa.sh;
 				chmod +x "$HOME"/tools/twa.sh;
+		fi
+		echo -e "$GREEN""[+] Installing yawast via Ruby gem.""$NC";
+		which ruby;
+		RESULT=$?;
+		if [[ "$RESULT" != 0 ]]; then
+				echo -e "$RED""[!] Ruby is not installed, not installing yawast.""$NC";
+		else
+				sudo gem install yawast;
 		fi
 
 		echo -e "$BLUE""[i] Tools have been installed. Please run with arguments [URL] [TARGET].""$NC";
@@ -123,6 +132,14 @@ function check_paths() {
 				echo -e "$RED""[!] File at twa path does not exist.""$NC";
 				exit;
 		fi
+		if [[ "$YAWAST" == "" ]]; then
+				echo -e "$RED""[!] The path to yawast has not been set.""$NC";
+				exit;
+		fi
+		if [[ ! -a "$YAWAST" ]]; then
+				echo -e "$RED""[!] File at yawast path does not exist.""$NC";
+				exit;
+		fi
 }
 
 check_paths;
@@ -157,6 +174,13 @@ function run_whatweb() {
 		echo -e "$ORANGE""[*]$GREEN Running whatweb with the following command:$BLUE whatweb -v -a 3 $URL""$NC";
 		sleep 1;
 		whatweb -v -a 3 "$URL" | tee "$WORKING_DIR"/whatweb;
+}
+
+function run_yawast() {
+		trap cancel SIGINT;
+
+		echo -e "$ORANGE""[*]$GREEN Running yawast with the following command:$BLUE yawast scan --dir --dirrecursive $URL""$NC";
+		yawast scan --dir --dirrecursive "$URL"
 }
 
 function run_nikto() {
@@ -247,6 +271,7 @@ function run_twa() {
 
 run_nmap;
 run_whatweb;
+run_yawast;
 run_nikto;
 run_ffuf;
 run_gobuster;
