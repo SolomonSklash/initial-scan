@@ -69,6 +69,7 @@ function installer() {
 		if [[ "$RESULT" != 0 ]]; then
 				echo -e "$RED""[!] Ruby is not installed, not installing yawast.""$NC";
 		else
+				sudo gem install rake;
 				sudo gem install yawast;
 		fi
 
