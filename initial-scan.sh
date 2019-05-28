@@ -203,9 +203,9 @@ function run_gobuster() {
 function run_ffuf() {
 		trap cancel SIGINT;
 
-		echo -e "$ORANGE""[*]$GREEN Running ffuf with the following command:$BLUE ffuf -u $URL/FUZZ -w big.txt -k -sf -se -fc 404 -mc all | tee $WORKING_DIR/ffuf-output.txt""$NC";
+		echo -e "$ORANGE""[*]$GREEN Running ffuf with the following command:$BLUE ffuf -u $URL/FUZZ -w big.txt -k -sf -se -fc 404,301,302 -mc all | tee $WORKING_DIR/ffuf-output.txt""$NC";
 		sleep 1;
-		"$FFUF" -u "$URL"/FUZZ -w big.txt -k -sf -se -fc 404 -mc all | tee "$WORKING_DIR"/ffuf-output.txt;
+		"$FFUF" -u "$URL"/FUZZ -w big.txt -k -sf -se -fc 404,301,302 -mc all | tee "$WORKING_DIR"/ffuf-output.txt;
 }
 
 function run_bfac() {
