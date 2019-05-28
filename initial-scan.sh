@@ -180,8 +180,8 @@ function run_whatweb() {
 function run_yawast() {
 		trap cancel SIGINT;
 
-		echo -e "$ORANGE""[*]$GREEN Running yawast with the following command:$BLUE yawast scan --dir --dirrecursive $URL""$NC";
-		yawast scan --dir --dirrecursive "$URL"
+		echo -e "$ORANGE""[*]$GREEN Running yawast with the following command:$BLUE yawast scan --dir URL""$NC";
+		yawast scan --dir "$URL"
 }
 
 function run_nikto() {
