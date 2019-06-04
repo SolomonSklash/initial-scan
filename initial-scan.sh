@@ -160,11 +160,11 @@ function run_nmap() {
 
 		# Strip http/https and trailing path from URL
 		NMAP_URL=$(echo "$URL" | sed -e 's/^http\(\|s\):\/\///g' | sed -e 's/\/.*//');
-		echo -e "$ORANGE""[*]$GREEN Running the following nmap command:$BLUE sudo nmap $NMAP_URL -v -Pn -sV --reason --version-all --top-ports 1000 -oA $WORKING_DIR/nmap-top-1000 --stats-every 7s""$NC";
+		echo -e "$ORANGE""[*]$GREEN Running the following nmap command:$BLUE nmap $NMAP_URL -v -Pn -sV --reason --version-all --top-ports 1000 -oA $WORKING_DIR/nmap-top-1000 --stats-every 7s""$NC";
 		sleep 1;
 		nmap "$NMAP_URL" -v -Pn -sV --reason --version-all --top-ports 1000 -oA "$WORKING_DIR"/nmap-top-1000 --stats-every 7s;
 
-		echo -e "$ORANGE""[*]$GREEN Running the following nmap command:$BLUE sudo nmap $URL -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA $WORKING_DIR/nmap-http""$NC";
+		echo -e "$ORANGE""[*]$GREEN Running the following nmap command:$BLUE nmap $URL -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA $WORKING_DIR/nmap-http""$NC";
 		sleep 1;
 		nmap "$NMAP_URL" -v -Pn -p 80,8080,443 --script http-apache-negotiation,http-apache-server-status,http-aspnet-debug,http-auth,http-auth-finder,http-config-backup,http-cors,http-cross-domain-policy,http-default-accounts,http-enum,http-errors,http-generator,http-iis-short-name-brute,http-iis-webdav-vuln,http-internal-ip-disclosure,,http-mcmp,http-method-tamper,http-methods,http-ntlm-info,http-open-proxy,http-open-redirect,http-passwd,http-php-version,http-phpself-xss,http-trace,http-traceroute,http-vuln-cve2012-1823,http-vuln-cve2015-1635 -oA "$WORKING_DIR"/nmap-http --stats-every 7s;
 }
@@ -205,7 +205,7 @@ function run_ffuf() {
 
 		echo -e "$ORANGE""[*]$GREEN Running ffuf with the following command:$BLUE ffuf -u $URL/FUZZ -w big.txt -k -sf -se -fc 404,301,302 -mc all | tee $WORKING_DIR/ffuf-output.txt""$NC";
 		sleep 1;
-		"$FFUF" -u "$URL"/FUZZ -w big.txt -k -sf -se -fc 404,301,302 -mc all | tee "$WORKING_DIR"/ffuf-output.txt;
+		"$FFUF" -u "$URL"FUZZ -w big.txt -k -sf -se -fc 404,301,302 -mc all | tee "$WORKING_DIR"/ffuf-output.txt;
 }
 
 function run_bfac() {
@@ -224,7 +224,7 @@ function run_wafw00f() {
 
 		echo -e "$ORANGE""[*]$GREEN Running wafw00f with the following command:$BLUE wafw00f $WAFW00F_URL -a | tee $WORKING_DIR/wafw00f""$NC";
 		sleep 1;
-		wafw00f "$WAFW00F_URL" -v -a 3 | tee "$WORKING_DIR"/wafw00f;
+		wafw00f "$WAFW00F_URL" -v -a | tee "$WORKING_DIR"/wafw00f;
 }
 
 function run_breacher() {
