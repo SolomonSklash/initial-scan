@@ -195,9 +195,9 @@ function run_nikto() {
 function run_gobuster() {
 		trap cancel SIGINT;
 
-		echo -e "$ORANGE""[*]$GREEN Running gobuster with the command:$BLUE gobuster -u $URL -w big.txt -s '200,201,202,204,307,308,400,401,403,405,500,501,502,503' -to 3s -e -k -o $WORKING_DIR/gobuster""$NC";
+		echo -e "$ORANGE""[*]$GREEN Running gobuster with the command:$BLUE gobuster dir -u $URL -w big.txt -s '200,201,202,204,307,308,400,401,403,405,500,501,502,503' --timeout 3s -e -k -o $WORKING_DIR/gobuster""$NC";
 		sleep 1;
-		gobuster -u "$URL" -t 20 -w big.txt -s '200,201,202,204,307,308,400,401,403,405,500,501,502,503' -to 3s -e -k -o "$WORKING_DIR"/gobuster;
+		gobuster dir -u "$URL" -t 20 -w big.txt -s '200,201,202,204,307,308,400,401,403,405,500,501,502,503' --timeout 3s -e -k -o "$WORKING_DIR"/gobuster;
 }
 
 function run_ffuf() {
